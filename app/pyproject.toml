@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "restapi-fastapi"
+name = "apirest"
 version = "0.1.0"
 description = ""
 authors = ["RAJerez <rodrigoagustin23@gmail.com>"]
@@ -9,6 +9,9 @@ readme = "README.md"
 python = "^3.10"
 fastapi = "^0.110.1"
 uvicorn = "^0.29.0"
+sqlalchemy = "^2.0.29"
+psycopg2-binary = "^2.9.9"
+python-decouple = "^3.8"
 black = "^24.3.0"
 
 
