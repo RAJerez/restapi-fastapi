@@ -3,6 +3,7 @@ from schemas import User, UserId, ShowUser
 from db.database import get_db
 from sqlalchemy.orm import Session
 from db import models
+from typing import List
 
 router = APIRouter(
     prefix="/user",
@@ -11,11 +12,10 @@ router = APIRouter(
 
 users = []
 
-@router.get("/")
+@router.get("/", response_model=List[ShowUser])
 def get_users(db:Session = Depends(get_db)):
     data = db.query(models.User).all()
-    print(data)
-    return users
+    return data
 
 @router.post("/")
 def create_user(user: User, db:Session = Depends(get_db)):
@@ -50,12 +50,19 @@ def get_user_2(user_id:UserId):
     return {"response": "User not found."}
 
 @router.delete("/{user_id}")
-def delete_user(user_id:int):
-    for index, user in enumerate(users):
-        if user["user_id"] == user_id:
-            users.pop(index)
-            return {"response": "User deleted successfully"}
-    return {"response": "User not found."}
+def delete_user(user_id:int, db:Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.user_id == user_id)
+    if not user.first():
+        return {"response": "User not found."}
+    user.delete(synchronize_session=False)
+    db.commit()
+    return {"response": "User deleted successfully"}
+    
+    #for index, user in enumerate(users):
+    #    if user["user_id"] == user_id:
+    #        users.pop(index)
+    #        return {"response": "User deleted successfully"}
+    #return {"response": "User not found."}
 
 @router.put("/{user_id}")
 def update_user(user_id:int, updateUser:User):
