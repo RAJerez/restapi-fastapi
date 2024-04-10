@@ -4,13 +4,22 @@ from typing import Optional
 from datetime import datetime
 
 class User(BaseModel):
-    id: int
+    username: str
+    password: str
     name: str
     lastname: str
     address: Optional[str]
-    phone_number: int
+    phone_number: str
     email: str
     create_user: datetime = datetime.now()
 
 class UserId(BaseModel):
-    id:int
+    user_id:int
+    
+class ShowUser(BaseModel):
+    username: str
+    name: str
+    lastname: str
+    email: str
+    class Config():
+        orm_mode = True
