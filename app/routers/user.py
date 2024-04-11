@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from schemas import User, UserId, ShowUser
+from schemas import User, UserId, ShowUser, UpdateUser
 from db.database import get_db
 from sqlalchemy.orm import Session
 from db import models
@@ -57,21 +57,12 @@ def delete_user(user_id:int, db:Session = Depends(get_db)):
     user.delete(synchronize_session=False)
     db.commit()
     return {"response": "User deleted successfully"}
-    
-    #for index, user in enumerate(users):
-    #    if user["user_id"] == user_id:
-    #        users.pop(index)
-    #        return {"response": "User deleted successfully"}
-    #return {"response": "User not found."}
 
-@router.put("/{user_id}")
-def update_user(user_id:int, updateUser:User):
-    for index, user in enumerate(users):
-        if user["user_id"] == user_id:
-            users[index]["user_id"] = updateUser.dict()["user_id"]
-            users[index]["name"] = updateUser.dict()["name"]
-            users[index]["lastname"] = updateUser.dict()["lastname"]
-            users[index]["address"] = updateUser.dict()["address"]
-            users[index]["phone_number"] = updateUser.dict()["phone_number"]
-            return {"response": "User updated successfully"}
-    return {"response": "User not found."}
+@router.patch("/{user_id}")
+def update_user(user_id:int, updateUser:UpdateUser, db:Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.user_id == user_id)
+    if not user.first():
+        return {"response": "User not found."}
+    user.update(updateUser.dict(exclude_unset=True))
+    db.commit()
+    return {"response": "User updated successfully"}

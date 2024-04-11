@@ -12,6 +12,15 @@ class User(BaseModel):
     phone_number: str
     email: str
     create_user: datetime = datetime.now()
+    
+class UpdateUser(BaseModel):
+    username:str = None
+    password:str = None
+    name:str = None
+    lastname:str = None
+    address:str = None
+    phone_number:str = None
+    email:str = None
 
 class UserId(BaseModel):
     user_id:int
