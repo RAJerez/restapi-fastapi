@@ -1,7 +1,7 @@
-from pydantic import BaseModel
-
-from typing import Optional
 from datetime import datetime
+from typing import Optional
+
+from pydantic import BaseModel
 
 class User(BaseModel):
     username: str
@@ -21,9 +21,6 @@ class UpdateUser(BaseModel):
     address:str = None
     phone_number:str = None
     email:str = None
-
-class UserId(BaseModel):
-    user_id:int
     
 class ShowUser(BaseModel):
     username: str
