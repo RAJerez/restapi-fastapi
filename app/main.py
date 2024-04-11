@@ -1,8 +1,7 @@
 from fastapi import FastAPI
-import uvicorn
 from routers import user
 from db.database import Base, engine
-from routers import user
+import uvicorn
 
 def create_tables():
     Base.metadata.create_all(bind=engine)
