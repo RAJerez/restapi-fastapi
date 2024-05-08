@@ -19,17 +19,15 @@ services:
       context: ./app
       dockerfile: Dockerfile
     container_name: app
-    environment:
-      - CONNSTR=${CONNSTR}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PORT=${POSTGRES_PORT}
+    env_file:
+      - .env.deploy
     ports:
       - "8000:8000"
     volumes:
       - ./app:/app
+    depends_on:
+      - postgres-db
+    restart: unless-stopped
 
 volumes:
   postgres-db-volume:

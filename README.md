@@ -2,7 +2,7 @@
 
 En local...
     
-    uvicorn app:app --reload
+    uvicorn main:app --reload
 
 Luego...
     
@@ -18,4 +18,14 @@ Para ingresar a la documentación
 To access the database run this command:
 ```bash
 docker exec -it postgres-db psql -U rest-api -W store-db
+```
+
+### Create a new table revision by running
+```bash
+alembic revision --autogenerate -m'revision name'
+```
+
+### Manually upgrade db with
+```bash
+alembic upgrade head
 ```
