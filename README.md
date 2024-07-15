@@ -1,31 +1,40 @@
-# restapi-fastapi
+# RestAPI CRUD with FastAPI
 
-En local...
-    
-    uvicorn main:app --reload
+## Project Description
 
-Luego...
-    
-    http://127.0.0.1:8000
+This project is a REST API built with ***FastAPI***, designed to perform CRUD (Create, Read, Update, Delete) operations on a PostgreSQL database. It uses SQLAlchemy as the ORM (Object-Relational Mapping) for database interaction and Alembic for database migrations and versioning. The application is prepared for deployment using Docker, which facilitates its distribution and scalability.
 
 
-Para ingresar a la documentación
-    
-    http://127.0.0.1:8000/docs
+## Project Setup
 
-
-## Access postgres database
-To access the database run this command:
+1. ### Clone the repository:
 ```bash
-docker exec -it postgres-db psql -U rest-api -W store-db
+git clone git@github.com:RAJerez/restapi-fastapi.git
+cd repository-name
 ```
 
-### Create a new table revision by running
+2. ### Create and configure the .env file:
 ```bash
-alembic revision --autogenerate -m'revision name'
+POSTGRES_USER=postgres_user
+POSTGRES_PASSWORD=postgres_password
+POSTGRES_DB=store-db
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+
+CONNSTR=postgresql://rest-api:postgres_password@localhost:5432/store-db
 ```
 
-### Manually upgrade db with
+2. ### Build and start the Docker containers:
 ```bash
-alembic upgrade head
+docker-compose up --build
 ```
+
+3. ### Apply database migrations with Alembic:
+```bash
+docker-compose exec app alembic upgrade head
+```
+
+
+## Usage
+
+Once the containers are up and running, the API will be available at http://localhost:8000. You can access the automatically generated interactive documentation by FastAPI at http://localhost:8000/docs.
